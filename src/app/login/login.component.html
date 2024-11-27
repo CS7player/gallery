@@ -1,0 +1,32 @@
+<div class="container pos-absolute">
+ <div class="login-box open">
+  <div class="open"><h1>L0GIN</h1></div>
+  <div class="ip-container open white">
+   <input class="ip" type="text" placeholder="Enter Username..." [(ngModel)]="username">
+   <div class="fill d-flex justify-center align-center m-r-1">
+    <i class="fa-solid fa-user" [style]="{'color': username.length >= 7 ? '#63E6BE' : '#eb4141'}"></i>
+   </div>
+  </div>
+  <div class="ip-container open white">
+   <input class="ip" [type]="isShowPassword ? 'text': 'password'" placeholder="Enter Password..." [(ngModel)]="password">
+   <div class="fill d-flex justify-center align-center m-r-1" (click)="isShowPassword = !isShowPassword">
+    <i [class]="isShowPassword ? 'fa-solid fa-eye':'fa-solid fa-eye-slash'" [style]="{'color': password.length >= 7 ? '#63E6BE' : '#eb4141'}"></i>
+   </div>
+  </div>
+  <div>
+   <button class="btn open" (click)="validation()">login &nbsp;<i class="fa-solid fa-arrow-right-to-bracket"></i></button>
+  </div>
+  <div>
+  </div>
+ </div>
+ @if(isResponse){
+     <div class="alert open">
+        <p>{{response}}</p>
+     </div>
+ }
+</div>
+@if(isloading){
+    <div class="container loader pos-absolute">
+        <i class="fa-solid fa-arrow-rotate-left fa-spin fa-spin-reverse" style="color: #B197FC;"></i>
+    </div>
+}

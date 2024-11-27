@@ -1,0 +1,18 @@
+<div class="content-box">
+    <div>
+        <input type="file" (change)="onChange($event)">
+        <button (click)="setImage()">ADD</button>
+    </div>
+    <div class="img-container">
+        @for(item of imageData;track $index){
+            <div class="box" [style.background-image]="'url(' + item['image'] + ')'"></div>
+            <!-- <img [src]="item['image']" alt="no image"> -->
+        }
+    </div>
+</div>
+
+@if(isResponse){
+    <div class="alert open">
+       <p>{{response}}</p>
+    </div>
+}
