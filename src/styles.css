@@ -14,6 +14,8 @@
  display: flex;
  justify-content: center;
  align-items: center;
+ top: 0;
+ left: 0;
 }
 
 .fill {
@@ -39,6 +41,10 @@
 
 .m-l-1 {
  margin-left: 0.5rem;
+}
+
+.m-t-1{
+    margin-top: 0.5rem;
 }
 
 .btn {

@@ -10,18 +10,17 @@ import { HelperService } from './utils/helper.service';
  styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
- constructor(private readonly router: Router,private help : HelperService){ }
+ constructor(private readonly router: Router, private help: HelperService) { }
  ngOnInit(): void {
   this.loginCheck();
  }
- loginCheck(){
-    console.log(1231)
-    let token = this.help.getData('token')
-    if(token){
-        this.router.navigate(['layout'])
-    }
-    else{
-        this.router.navigate(['login'])
-    }
+ loginCheck() {
+  let token = this.help.getData('token')
+  if (token) {
+   this.router.navigate(['layout'])
+  }
+  else {
+   this.router.navigate(['login'])
+  }
  }
 }

@@ -2,45 +2,52 @@ import { Component, OnInit } from '@angular/core';
 import { HelperService } from '../../utils/helper.service';
 import { DataFetchService } from '../../utils/data-fetcher.service';
 import { ConstantsService } from '../../utils/constants.service';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-content',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './content.component.html',
   styleUrl: './content.component.css'
 })
 export class ContentComponent implements OnInit{
 
-  constructor(private help : HelperService,private http : DataFetchService){}
-  ngOnInit(): void {
-    this.getImages();
-  }
   imageData:any = [];
   isResponse:boolean = false;
   response:string = '';
   imageSrc: string = "";
+  image_name:string = '';
+  picSrc:any=''
+  isZoom:boolean = false;
+  zoomPic:string = '';
+  constructor(private help : HelperService,private http : DataFetchService){}
+  ngOnInit(): void {
+    this.getImages();
+  }
   onChange(event: any) {
     this.imageSrc = event.target.files[0];
   }
-  setImage(){
-    let username = this.help.getData('details')['username'];
+  addImage(){
+    let details = this.help.getData('details');
     const formData = new FormData();
-    formData.append('username', username);
+    formData.append('username', details.username);
+    formData.append('id', details._id);
     formData.append('img', this.imageSrc);
+    formData.append('name',this.image_name);
     this.http.doPost(ConstantsService.GALLERY_URL+'/pics/add', formData).subscribe({
       next: (res: any) => {
         if(res['status']){
           this.isResponse = true;
           this.response = res['msg'];
+          this.getImages();
+          // this.imageData.push({'username':details.username,'id': details._id,'img':this.picSrc,'name':this.imageData})
         }
       },
       error: (err) => {
         console.error('Error uploading image:', err);
       }
     });
-    this.getImages();
   }
 
   getImages(){
@@ -64,5 +71,28 @@ export class ContentComponent implements OnInit{
     this.isResponse = false;
     this.response = '';
     },3000);
+  }
+
+  zoomImage(src : string){
+    this.zoomPic =  src;
+    this.isZoom = true;
+  }
+
+  delImage(id : string){
+    this.http.doDelete(ConstantsService.GALLERY_URL+'/pics/delete?id='+id).subscribe({
+      next:(res:any)=>{
+        if(res['status']){
+          this.isResponse = true;
+          this.response = 'Image Deleted Successfully';
+          console.log(id);
+          this.imageData = this.imageData.filter((ele :any)=>{ele['_id'] != id});
+          console.log(this.imageData);
+        }
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+    this.clearResponse();
   }
 }

@@ -14,6 +14,10 @@ export class DataFetchService {
   return this._http.post(url, data, this.getToken());
  }
 
+ doPut(url:string,data: any){
+    return this._http.put(url,data,this.getToken());
+ }
+
  doDelete(url : string){
   return this._http.delete(url,this.getToken());
  }

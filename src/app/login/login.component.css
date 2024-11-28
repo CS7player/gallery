@@ -2,7 +2,7 @@
  width: auto;
  height: auto;
  padding: 0.5rem;
- background-color: rgb(230, 67, 230);
+ background-color: rgb(67, 157, 230);
  border-radius: 1rem;
  border: 0.2rem solid rgb(97, 236, 97);
  display: flex;
@@ -36,4 +36,10 @@
  color: rgb(32, 31, 31);
  font-size: 1rem;
 }
+p:hover{
+    color: aqua;
+}
 
+.col-gap-1{
+    column-gap: 0.5rem;
+}
