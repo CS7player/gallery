@@ -1,1 +1,13 @@
-<p>menu works!</p>
+<div class="d-flex m-t-1">
+    <div class="menu-container">
+        @for(user of userData;track $index){
+            <div class="scrolling-text" (click)="changer(user)">
+                {{user['username']}}
+            </div>
+        }
+    </div>  
+    <div>
+        <app-content [userid]="userid"></app-content>
+    </div>
+</div>
+

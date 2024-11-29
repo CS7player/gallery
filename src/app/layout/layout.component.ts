@@ -3,12 +3,12 @@ import { DataFetchService } from '../utils/data-fetcher.service';
 import { ConstantsService } from '../utils/constants.service';
 import { HelperService } from '../utils/helper.service';
 import { Router } from '@angular/router';
-import { ContentComponent } from "./content/content.component";
+import { MenuComponent } from "./menu/menu.component";
 
 @Component({
  selector: 'app-layout',
  standalone: true,
- imports: [ContentComponent],
+ imports: [MenuComponent],
  templateUrl: './layout.component.html',
  styleUrl: './layout.component.css'
 })

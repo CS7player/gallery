@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { HelperService } from '../../utils/helper.service';
 import { DataFetchService } from '../../utils/data-fetcher.service';
 import { ConstantsService } from '../../utils/constants.service';
@@ -11,21 +11,36 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './content.component.html',
   styleUrl: './content.component.css',
 })
-export class ContentComponent implements OnInit {
+export class ContentComponent implements OnInit,OnChanges {
+
   imageData: any = [];
+  selectedFile : any = null;
   isResponse: boolean = false;
   response: string = '';
   imageSrc: string = '';
   image_name: string = '';
-  picSrc: any = '';
   isZoom: boolean = false;
-  zoomPic: string = '';
+  display_image : string = '';
+  @Input() userid = '';
   constructor(private help: HelperService, private http: DataFetchService) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userid']) {
+      this.getImages(this.userid);
+    }
+  }
   ngOnInit(): void {
-    this.getImages();
+    this.getImages(this.userid);
   }
   onChange(event: any) {
     this.imageSrc = event.target.files[0];
+    const file : any = this.imageSrc
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+         this.display_image = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
   addImage() {
     if (this.imageSrc == '') {
@@ -48,7 +63,9 @@ export class ContentComponent implements OnInit {
         next: (res: any) => {
           if (res['status']) {
             this.alert(res['msg']);
-            // this.imageData.push({'username':details.username,'id': details._id,'img':this.picSrc,'name':this.imageData})
+            this.imageData.push({'_id':res['data']['insertedId'],'username':details.username,'id': details._id,'image':this.display_image,'name':this.image_name})
+            this.image_name = '';
+            this.selectedFile = null;
           }
         },
         error: (err) => {
@@ -57,9 +74,9 @@ export class ContentComponent implements OnInit {
       });
   }
 
-  getImages() {
+  getImages(id : string) {
     this.alert('Fetching Images');
-    this.http.doGet(ConstantsService.GALLERY_URL + '/pics/details').subscribe({
+    this.http.doGet(ConstantsService.GALLERY_URL + '/pics/details?id='+id).subscribe({
       next: (res: any) => {
         if (res['status']) {
           this.imageData = res['data'];
@@ -72,7 +89,7 @@ export class ContentComponent implements OnInit {
   }
 
   zoomImage(src: string) {
-    this.zoomPic = src;
+    this.display_image = src;
     this.isZoom = true;
   }
 
