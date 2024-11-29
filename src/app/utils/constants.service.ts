@@ -6,6 +6,6 @@ import { Injectable } from '@angular/core';
 export class ConstantsService {
 
   constructor() { }
-  // static GALLERY_URL = 'https://gallery-node.vercel.app'
-  static GALLERY_URL = 'http://localhost:4444'
+  static GALLERY_URL = 'https://gallery-node.vercel.app'
+  // static GALLERY_URL = 'http://localhost:4444'
 }
